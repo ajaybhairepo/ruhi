@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-deep: var(--deep);
+  --color-cream: var(--cream);
+  --color-paper: var(--paper);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+  --color-lime: var(--aqua);
+  --color-orange: var(--orange);
+  --color-white: var(--white);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
+
+:root {
+  /* Modern clean palette */
+  --ink: #0f172a; /* Primary text */
+  --deep: #0b3d91; /* Headers / Dark sections */
+  --cream: #f1f5f9; /* Main background */
+  --paper: #ffffff; /* Cards */
+  --line: #cbd5e1; /* Borders */
+  --muted: #64748b; /* Secondary text */
+  --aqua: #06b6d4; /* Accent */
+  --orange: #f97316; /* Secondary accent */
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--aqua);
+  color: var(--white);
+}
+
+/* Optional smoother defaults */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+}
