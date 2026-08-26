@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   // Check if the path is in the admin section
   if (path.startsWith("/admin") && !path.startsWith("/admin/login")) {
-    // Check for admin session in cookies or headers
+    // Check for admin session in cookies
     const session = request.cookies.get("admin_session");
 
     if (!session) {
