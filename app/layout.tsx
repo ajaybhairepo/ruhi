@@ -20,6 +20,11 @@ const dmMono = DM_Mono({
 
 export const metadata: Metadata = {
   title: "Tasifa Ruhi Industries | Detergent, Soap & Disinfectant in Nepal",
+  icons: {
+    icon: "/logo.jpg",
+    shortcut: "/logo.jpg",
+    apple: "/logo.jpg",
+  },
   description:
     "Shop thoughtful detergent, soap and surface disinfectant from Tasifa Ruhi Industries. Easy doorstep delivery across Nepal with cash on delivery.",
   keywords: [
