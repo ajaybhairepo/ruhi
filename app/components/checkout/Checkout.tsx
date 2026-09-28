@@ -161,7 +161,7 @@ Remarks: ${formData.remarks}`;
     }
 
     window.open(
-      `https://wa.me/9779768884650?text=${encodeURIComponent(message)}`,
+      `https://wa.me/9779815484404?text=${encodeURIComponent(message)}`,
       "_blank",
     );
 
@@ -169,7 +169,7 @@ Remarks: ${formData.remarks}`;
   };
 
   const handleCallOrder = () => {
-    window.location.href = "tel:+9779768884650";
+    window.location.href = "tel:+9779815484404";
     onDone();
   };
 

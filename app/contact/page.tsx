@@ -65,11 +65,11 @@ export default function ContactPage() {
   };
 
   const handleWhatsApp = () => {
-    window.open("https://wa.me/9779768884650", "_blank");
+    window.open("https://wa.me/9779815484404", "_blank");
   };
 
   const handleCall = () => {
-    window.location.href = "tel:+9779768884650";
+    window.location.href = "tel:+9779815484404";
   };
 
   const socialLinks = [
@@ -156,7 +156,7 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <p className="text-xs text-white/50">Phone</p>
-                        <p className="text-sm text-white">+977 9768884650</p>
+                        <p className="text-sm text-white">+977 9815484404</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -165,7 +165,9 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <p className="text-xs text-white/50">Email</p>
-                        <p className="text-sm text-white">hello@ruhi.com</p>
+                        <p className="text-sm text-white">
+                          tashifaruhi@gmail.com
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -175,7 +177,7 @@ export default function ContactPage() {
                       <div>
                         <p className="text-xs text-white/50">Address</p>
                         <p className="text-sm text-white">
-                          Kapilvastu-10, Pachehara, 32800
+                          Kapilvastu-10, Pachehara
                         </p>
                       </div>
                     </div>
@@ -192,6 +194,9 @@ export default function ContactPage() {
                       </div>
                     </div>
                   </div>
+                  <p className="mt-2 pl-13 text-xs text-white/60">
+                    PAN: 622799285 · Regd. No: 15991/081
+                  </p>
                 </div>
 
                 <div className="relative z-10">
@@ -363,7 +368,7 @@ export default function ContactPage() {
                 Call Us
               </h4>
               <p className="text-[10px] md:text-xs text-muted">
-                +977 9768884650
+                +977 9815484404
               </p>
             </button>
             <button
@@ -375,11 +380,11 @@ export default function ContactPage() {
                 WhatsApp
               </h4>
               <p className="text-[10px] md:text-xs text-muted">
-                +977 9768884650
+                +977 9815484404
               </p>
             </button>
             <a
-              href="mailto:hello@ruhi.com"
+              href="mailto:tashifaruhi@gmail.com"
               className="bg-white p-3 md:p-4 text-center shadow-sm transition-all hover:shadow-md hover:scale-[1.02] block"
             >
               <div className="text-2xl md:text-3xl mb-1 md:mb-2">✉️</div>
@@ -387,7 +392,7 @@ export default function ContactPage() {
                 Email Us
               </h4>
               <p className="text-[10px] md:text-xs text-muted">
-                hello@ruhi.com
+                tashifaruhi@gmail.com
               </p>
             </a>
           </div>
@@ -413,14 +418,14 @@ export default function ContactPage() {
               </div>
               <div className="md:col-span-2">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3530.268511833982!2d83.125978!3d27.553826!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39975c2b13c36f1d%3A0x8d8f2f8b8f8f8f8f!2sKapilvastu%2C%20Nepal!5e0!3m2!1sen!2s!4v1700000000000"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3535.6433247739474!2d83.13053229999998!3d27.604585600000014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3996f100491440f5%3A0x8990fe5089e99003!2sTashifa%20ruhi%20industries!5e0!3m2!1sen!2snp!4v1790606931235!5m2!1sen!2snp"
                   width="100%"
                   height="120"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Ruhi Location Map"
+                  title="Tasifa Ruhi Industries location map"
                   className="bg-white/5"
                 />
               </div>

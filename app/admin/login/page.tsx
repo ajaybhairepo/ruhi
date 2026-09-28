@@ -69,7 +69,7 @@ export default function AdminLoginPage() {
                       <FiShield className="h-7 w-7 text-orange" />
                     </div>
                     <h1 className="text-3xl font-bold text-deep">
-                      ruhi<span className="text-orange">.</span>
+                      Tasifa Ruhi Industries
                     </h1>
                     <p className="text-sm text-muted mt-1 font-medium">
                       Admin Control Panel

@@ -1,4 +1,5 @@
 import { FiShoppingBag } from "react-icons/fi";
+import Image from "next/image";
 
 type SiteHeaderProps = {
   cartCount: number;
@@ -8,23 +9,25 @@ type SiteHeaderProps = {
 export function SiteHeader({ cartCount, onCartOpen }: SiteHeaderProps) {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-deep/95 backdrop-blur-md">
-      <div className="grid h-16 grid-cols-3 items-center px-4 sm:px-6 lg:px-8">
-        {/* Left - Empty spacer */}
-        <div className="justify-self-start" />
-
-        {/* Center - Logo - Link to home */}
+      <div className="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+        {/* Left - Logo - Link to home */}
         <a
           href="/"
-          aria-label="Ruhi home"
-          className="justify-self-center text-center"
+          aria-label="Tasifa Ruhi Industries home"
+          className="shrink-0"
         >
-          <h1 className="text-2xl font-bold lowercase tracking-[0.35em] text-white transition-all hover:text-orange/80 md:text-3xl lg:text-4xl">
-            ruhi<span className="text-orange">.</span>
-          </h1>
+          <Image
+            src="/logo.png"
+            alt="Tasifa Ruhi Industries"
+            width={128}
+            height={128}
+            priority
+            className="h-14 w-14 rounded-full bg-white object-contain transition-transform hover:scale-105"
+          />
         </a>
 
         {/* Right - Cart */}
-        <div className="flex items-center gap-3 justify-self-end">
+        <div className="flex items-center gap-3">
           <button
             onClick={onCartOpen}
             aria-label="Open cart"

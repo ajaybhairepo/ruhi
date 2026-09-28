@@ -14,6 +14,7 @@ import {
   FaTiktok,
 } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 type SiteFooterProps = {
   onAdminOpen: () => void;
@@ -42,22 +43,26 @@ export function SiteFooter({ onAdminOpen, onCategorySelect }: SiteFooterProps) {
       <div className="absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-orange/5 blur-3xl" />
 
       {/* Top Border Accent */}
-      <div className="absolute left-0 right-0 top-0 h-1 bg-gradient-to-r from-transparent via-orange to-transparent" />
+      <div className="absolute left-0 right-0 top-0 h-1 bg-linear-to-r from-transparent via-orange to-transparent" />
 
       {/* Main Content */}
       <div className="relative grid grid-cols-1 gap-10 pb-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
         {/* Brand */}
         <div>
           <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange/20">
-              <span className="text-2xl font-black text-orange">R</span>
-            </div>
+            <Image
+              src="/logo.png"
+              alt="Tasifa Ruhi Industries"
+              width={128}
+              height={128}
+              className="h-16 w-16 rounded-full bg-white object-contain"
+            />
             <div>
               <div className="font-display text-2xl font-bold text-white">
-                ruhi<span className="text-orange">.</span>
+                Tasifa Ruhi Industries
               </div>
               <p className="text-sm text-white/60">
-                Tashifa Detergent Industries
+                Cleaning products made in Nepal
               </p>
             </div>
           </div>
@@ -76,7 +81,7 @@ export function SiteFooter({ onAdminOpen, onCategorySelect }: SiteFooterProps) {
               { icon: FaTiktok, href: "https://tiktok.com", label: "TT" },
               {
                 icon: FaWhatsapp,
-                href: "https://wa.me/9779768884650",
+                href: "https://wa.me/9779815484404",
                 label: "WA",
               },
             ].map((social) => (
@@ -171,20 +176,20 @@ export function SiteFooter({ onAdminOpen, onCategorySelect }: SiteFooterProps) {
           <ul className="space-y-3 text-white">
             <li className="flex items-center gap-3 text-sm text-white transition-all hover:text-orange">
               <FiPhone className="h-4 w-4 text-white transition-all group-hover:text-orange" />
-              <span>+977 9768884650</span>
+              <a href="tel:+9779815484404">+977 9815484404</a>
             </li>
             <li className="flex items-center gap-3 text-sm">
               <a
-                href="mailto:hello@ruhi.com"
+                href="mailto:tashifaruhi@gmail.com"
                 className="flex items-center gap-3 text-white transition-all hover:text-orange"
               >
                 <FiMail className="h-4 w-4 text-white transition-all group-hover:text-orange" />
-                hello@ruhi.com
+                tashifaruhi@gmail.com
               </a>
             </li>
             <li className="flex items-center gap-3 text-sm">
               <a
-                href="https://wa.me/9779768884650"
+                href="https://wa.me/9779815484404"
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center gap-3 text-white transition-all hover:text-orange"
@@ -195,7 +200,10 @@ export function SiteFooter({ onAdminOpen, onCategorySelect }: SiteFooterProps) {
             </li>
             <li className="flex items-start gap-3 text-sm text-white transition-all hover:text-orange">
               <FiMapPin className="mt-0.5 h-4 w-4 text-white transition-all group-hover:text-orange" />
-              <span>Kapilvastu-10, Pachehara, 32800</span>
+              <span>Kapilvastu-10, Pachehara</span>
+            </li>
+            <li className="pl-7 text-xs text-white/60">
+              PAN: 622799285 · Regd. No: 15991/081
             </li>
             <li className="flex items-start gap-3 text-sm text-white">
               <FiClock className="mt-0.5 h-4 w-4 text-white" />
@@ -213,7 +221,7 @@ export function SiteFooter({ onAdminOpen, onCategorySelect }: SiteFooterProps) {
       <div className="relative mt-8 flex flex-col items-center justify-between gap-3 border-t border-white/10 py-6 text-xs text-white/50 md:flex-row">
         <div className="flex items-center gap-2">
           <FiHeart className="h-3 w-3 text-orange" />
-          <span>© 2026 Tashifa Detergent Industries</span>
+          <span>© 2026 Tasifa Ruhi Industries</span>
         </div>
         <div className="flex flex-wrap items-center gap-3 text-white/50">
           <span>Delivery across Nepal</span>

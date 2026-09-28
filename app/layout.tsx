@@ -19,14 +19,14 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ruhi Home Care | Detergent, Soap & Disinfectant in Nepal",
+  title: "Tasifa Ruhi Industries | Detergent, Soap & Disinfectant in Nepal",
   description:
-    "Shop thoughtful detergent, soap and surface disinfectant from Ruhi Home Care. Easy doorstep delivery across Nepal with cash on delivery.",
+    "Shop thoughtful detergent, soap and surface disinfectant from Tasifa Ruhi Industries. Easy doorstep delivery across Nepal with cash on delivery.",
   keywords: [
     "detergent Nepal",
     "soap Nepal",
     "surface disinfectant",
-    "Ruhi Home Care",
+    "Tasifa Ruhi Industries",
     "cleaning products Nepal",
   ],
 };

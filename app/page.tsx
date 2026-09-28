@@ -282,7 +282,7 @@ export default function Home() {
       )}
 
       {cartNotice && (
-        <div className="fixed bottom-6 left-1/2 z-[1100] flex w-[calc(100%-32px)] max-w-[420px] -translate-x-1/2 items-center gap-3 rounded-full bg-deep px-4 py-3 text-white shadow-2xl sm:bottom-8">
+        <div className="fixed bottom-6 left-1/2 z-1100 flex w-[calc(100%-32px)] max-w-105 -translate-x-1/2 items-center gap-3 rounded-full bg-deep px-4 py-3 text-white shadow-2xl sm:bottom-8">
           <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-lime text-deep">
             <FiCheck aria-hidden="true" />
           </span>

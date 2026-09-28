@@ -56,13 +56,13 @@ export function HeroBanner() {
           {/* Brand - Nepali */}
           <div className="mb-2">
             <span className="text-lg font-bold text-white/70 sm:text-2xl md:text-3xl lg:text-5xl">
-              तशिफा डिटर्जेन्ट इंडस्ट्रीज
+              तसिफा रुही इंडस्ट्रीज
             </span>
           </div>
           {/* Company Name - Top, Large, Bold */}
           <div className="mb-2 w-full">
             <span className="block text-sm font-bold uppercase tracking-[0.25em] text-orange sm:text-base md:text-lg lg:text-xl">
-              Tashifa Detergent Industries
+              Tasifa Ruhi Industries
             </span>
           </div>
 
@@ -129,7 +129,7 @@ export function HeroBanner() {
 
           {/* Free Delivery Text */}
           <p className="mb-6 text-sm text-white/60">
-            🚚 Free delivery on orders over NPR 1000
+            🚚 Free delivery on every order
           </p>
 
           {/* Trust indicators */}

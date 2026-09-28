@@ -9,7 +9,6 @@ type Variant = {
 
 type Product = {
   id: string;
-  productCode: string;
   name: string;
   category: string;
   description: string;
@@ -85,7 +84,7 @@ export function CartDrawer({
     return sum + qty;
   }, 0);
 
-  const deliveryFee = total > 1500 ? 0 : 100;
+  const deliveryFee = 0;
   const grandTotal = total + deliveryFee;
 
   return (
@@ -249,9 +248,7 @@ export function CartDrawer({
                     </strong>
                   </div>
                   <p className="mt-1 text-xs text-muted">
-                    {deliveryFee === 0
-                      ? "✨ Free delivery applied"
-                      : `Add NPR ${1500 - total} more for free delivery`}
+                    ✨ Free delivery on every order
                   </p>
                 </div>
               </div>
