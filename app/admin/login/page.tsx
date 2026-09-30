@@ -143,14 +143,6 @@ export default function AdminLoginPage() {
                         {isLoading ? "Logging in..." : "Login"}
                       </button>
                     </form>
-
-                    <div className="mt-5 pt-4 border-t border-line/20">
-                      <p className="text-center text-xs text-muted">
-                        Default credentials:{" "}
-                        <span className="font-mono text-deep/60">admin</span> /{" "}
-                        <span className="font-mono text-deep/60">ruhi123</span>
-                      </p>
-                    </div>
                   </div>
                 </div>
               </div>

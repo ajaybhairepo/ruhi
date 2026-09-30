@@ -271,13 +271,8 @@ export function ProductSection({
                   loading="lazy"
                 />
                 {hasDiscount && (
-                  <span className="absolute top-3 left-3 font-mono text-[10px] bg-lime px-[9px] py-[7px]">
+                  <span className="absolute rounded-full top-3 left-3 font-mono text-[10px] bg-lime px-[9px] py-[7px]">
                     Save {discount}%
-                  </span>
-                )}
-                {productCode && (
-                  <span className="absolute top-3 right-3 font-mono text-[8px] bg-deep/50 text-white/70 px-2 py-1 rounded">
-                    {productCode}
                   </span>
                 )}
               </div>

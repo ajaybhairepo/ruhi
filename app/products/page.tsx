@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   FiShoppingBag,
@@ -15,7 +15,7 @@ import { SiteHeader } from "@/app/components/layout/SiteHeader";
 import { SiteFooter } from "@/app/components/layout/SiteFooter";
 import { CartDrawer } from "@/app/components/shop/CartDrawer";
 import { Checkout } from "@/app/components/checkout/Checkout";
-import { categories, type Category } from "@/app/data/store";
+import { categories } from "@/app/data/store";
 
 type Variant = {
   label: string;
@@ -40,6 +40,26 @@ type Product = {
   updatedAt: string;
 };
 
+type ProductRecord = {
+  id: string;
+  product_code: string | null;
+  name: string;
+  category: string;
+  description: string | null;
+  image: string;
+  image_public_id: string | null;
+  is_liquid: boolean | null;
+  variants: Variant[] | null;
+  price: number | null;
+  offer: number | null;
+  created_at: string;
+  updated_at: string;
+};
+
+type ProductResponse =
+  | { success: true; data: ProductRecord[] }
+  | { success: false; message?: string };
+
 type CartItem = Product & {
   selectedVariant: string;
   quantity: number;
@@ -49,10 +69,7 @@ function ProductsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
-
-  const [category, setCategory] = useState<Category>(
-    (categoryParam as Category) || "All",
-  );
+  const category = categories.find((item) => item === categoryParam) ?? "All";
   const [cart, setCart] = useState<CartItem[]>([]);
   const [showCart, setShowCart] = useState(false);
   const [checkout, setCheckout] = useState(false);
@@ -66,25 +83,12 @@ function ProductsContent() {
     Record<string, string>
   >({});
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
-  // Update category when URL param changes
-  useEffect(() => {
-    if (categoryParam) {
-      setCategory(categoryParam as Category);
-    }
-  }, [categoryParam]);
-
-  const fetchProducts = async () => {
-    setIsLoading(true);
-    setError(null);
+  const fetchProducts = useCallback(async () => {
     try {
       const response = await fetch("/api/admin/products");
-      const data = await response.json();
+      const data: ProductResponse = await response.json();
       if (data.success) {
-        const mappedProducts = data.data.map((p: any) => ({
+        const mappedProducts = data.data.map((p) => ({
           _id: p.id,
           id: p.id,
           productCode: p.product_code || "",
@@ -101,6 +105,7 @@ function ProductsContent() {
           updatedAt: p.updated_at,
         }));
         setProducts(mappedProducts);
+        setError(null);
       } else {
         setError(data.message || "Failed to fetch products");
       }
@@ -110,7 +115,11 @@ function ProductsContent() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    void fetchProducts();
+  }, [fetchProducts]);
 
   const visibleProducts =
     category === "All"
@@ -226,7 +235,11 @@ function ProductsContent() {
             </h3>
             <p className="mt-2 text-ink/60">{error}</p>
             <button
-              onClick={fetchProducts}
+              onClick={() => {
+                setIsLoading(true);
+                setError(null);
+                void fetchProducts();
+              }}
               className="mt-4 rounded-full bg-orange px-6 py-2 text-sm font-semibold text-white transition-all hover:scale-105 hover:shadow-lg hover:shadow-orange/30"
             >
               Try Again
@@ -282,7 +295,6 @@ function ProductsContent() {
                 <button
                   key={item}
                   onClick={() => {
-                    setCategory(item);
                     if (item === "All") {
                       router.push("/products");
                     } else {
@@ -365,11 +377,6 @@ function ProductsContent() {
                     {discount > 0 && (
                       <span className="absolute left-1.5 top-1.5 rounded-full bg-orange px-1.5 py-0.5 text-[8px] font-bold text-white md:px-2 md:py-0.5 md:text-[10px]">
                         Save {discount}%
-                      </span>
-                    )}
-                    {product.productCode && (
-                      <span className="absolute right-1.5 top-1.5 rounded bg-deep/50 px-1.5 py-0.5 text-[7px] text-white/70 font-mono md:text-[8px]">
-                        {product.productCode}
                       </span>
                     )}
                   </div>
@@ -476,7 +483,6 @@ function ProductsContent() {
               </p>
               <button
                 onClick={() => {
-                  setCategory("All");
                   router.push("/products");
                 }}
                 className="mt-4 rounded-full bg-orange px-6 py-2 text-sm font-semibold text-white transition-all hover:scale-105 hover:shadow-lg hover:shadow-orange/30"

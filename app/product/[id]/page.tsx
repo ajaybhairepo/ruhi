@@ -259,11 +259,6 @@ export default function ProductDetailPage() {
                   Save {discount}%
                 </span>
               )}
-              {product.productCode && (
-                <span className="absolute right-4 top-4 rounded bg-deep/70 px-3 py-1 text-xs text-white/80 font-mono">
-                  {product.productCode}
-                </span>
-              )}
             </div>
 
             <div className="flex flex-col">
