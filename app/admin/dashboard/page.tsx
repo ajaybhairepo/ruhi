@@ -133,19 +133,6 @@ export default function AdminDashboard() {
     }
   };
 
-  // Update variants when isLiquid changes
-  useEffect(() => {
-    const labels = getVariantLabels(formData.isLiquid);
-    setFormData((prev) => ({
-      ...prev,
-      variants: labels.map((label) => ({
-        label,
-        price: 0,
-        offer: 0,
-      })),
-    }));
-  }, [formData.isLiquid]);
-
   const applyOfferPercentage = () => {
     if (offerPercentage > 0) {
       setFormData((prev) => ({
@@ -174,7 +161,16 @@ export default function AdminDashboard() {
   ) => {
     const { name, value } = e.target;
     if (name === "isLiquid") {
-      setFormData((prev) => ({ ...prev, isLiquid: value === "true" }));
+      const isLiquid = value === "true";
+      setFormData((prev) => ({
+        ...prev,
+        isLiquid,
+        variants: getVariantLabels(isLiquid).map((label) => ({
+          label,
+          price: 0,
+          offer: 0,
+        })),
+      }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
@@ -246,13 +242,18 @@ export default function AdminDashboard() {
     setSaveError(null);
     setSaveSuccess(false);
     const isLiquid = product.isLiquid || false;
-    const labels = getVariantLabels(isLiquid);
-
-    const existingVariants = product.variants || [];
-    const variants = labels.map((label) => {
-      const existing = existingVariants.find((v) => v.label === label);
-      return existing || { label, price: 0, offer: 0 };
-    });
+    const variants =
+      Array.isArray(product.variants) && product.variants.length > 0
+        ? product.variants.map((variant) => ({
+            label: variant.label,
+            price: Number(variant.price) || 0,
+            offer: Number(variant.offer) || 0,
+          }))
+        : getVariantLabels(isLiquid).map((label) => ({
+            label,
+            price: 0,
+            offer: 0,
+          }));
 
     setFormData({
       id: product.id,
