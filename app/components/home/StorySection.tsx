@@ -93,7 +93,7 @@ export function StorySection() {
       {/* Right Side - Image */}
       <div className="relative h-[300px] sm:h-[400px] md:h-auto md:min-h-[500px] lg:min-h-[600px] overflow-hidden order-1 md:order-2">
         <img
-          src="/why.png"
+          src="/why.jpeg"
           alt="Ruhi products in a calm home"
           className="w-full h-full object-cover"
         />

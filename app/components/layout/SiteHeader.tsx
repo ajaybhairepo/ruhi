@@ -17,12 +17,12 @@ export function SiteHeader({ cartCount, onCartOpen }: SiteHeaderProps) {
           className="shrink-0"
         >
           <Image
-            src="/logo.png"
+            src="/logo.jpeg"
             alt="Tasifa Ruhi Industries"
             width={128}
             height={128}
             priority
-            className="h-14 w-14 rounded-full bg-white object-contain transition-transform hover:scale-105"
+            className="h-14 w-14 rounded-full object-contain transition-transform hover:scale-105"
           />
         </a>
 

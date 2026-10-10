@@ -51,11 +51,11 @@ export function SiteFooter({ onAdminOpen, onCategorySelect }: SiteFooterProps) {
         <div>
           <div className="flex items-center gap-3">
             <Image
-              src="/logo.png"
+              src="/logo.jpeg"
               alt="Tasifa Ruhi Industries"
               width={128}
               height={128}
-              className="h-16 w-16 rounded-full bg-white object-contain"
+              className="h-16 w-16 rounded-full object-contain"
             />
             <div>
               <div className="font-display text-2xl font-bold text-white">
