@@ -53,6 +53,12 @@ type ProductFormData = {
   variants: Variant[];
 };
 
+const getVariantLabels = (isLiquid: boolean): string[] => {
+  return isLiquid
+    ? ["250ml", "500ml", "800ml", "1000ml"]
+    : ["1kg", "2kg", "5kg", "10kg"];
+};
+
 export default function AdminDashboard() {
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -77,11 +83,11 @@ export default function AdminDashboard() {
     description: "",
     image: "",
     isLiquid: false,
-    variants: [
-      { label: "500ml", price: 0, offer: 0 },
-      { label: "750ml", price: 0, offer: 0 },
-      { label: "1000ml", price: 0, offer: 0 },
-    ],
+    variants: getVariantLabels(false).map((label) => ({
+      label,
+      price: 0,
+      offer: 0,
+    })),
   });
 
   // Check authentication
@@ -121,15 +127,6 @@ export default function AdminDashboard() {
       }
     } catch (error) {
       console.error("Error fetching products:", error);
-    }
-  };
-
-  // Generate variant labels based on isLiquid
-  const getVariantLabels = (isLiquid: boolean): string[] => {
-    if (isLiquid) {
-      return ["250ml", "500ml", "750ml", "1000ml"];
-    } else {
-      return ["1kg", "2kg", "5kg", "10kg"];
     }
   };
 
@@ -181,12 +178,22 @@ export default function AdminDashboard() {
     field: keyof Variant,
     value: string,
   ) => {
-    const numericValue = parseFloat(value) || 0;
+    const updatedValue = field === "label" ? value : parseFloat(value) || 0;
     setFormData((prev) => ({
       ...prev,
       variants: prev.variants.map((v, i) =>
-        i === index ? { ...v, [field]: numericValue } : v,
+        i === index ? { ...v, [field]: updatedValue } : v,
       ),
+    }));
+  };
+
+  const addVariant = () => {
+    setFormData((prev) => ({
+      ...prev,
+      variants: [
+        ...prev.variants,
+        { label: getVariantLabels(prev.isLiquid)[0], price: 0, offer: 0 },
+      ],
     }));
   };
 
@@ -224,14 +231,17 @@ export default function AdminDashboard() {
     setOfferPercentage(0);
     setSaveError(null);
     setSaveSuccess(false);
-    const labels = getVariantLabels(false);
     setFormData({
       name: "",
       category: "Detergent",
       description: "",
       image: "",
       isLiquid: false,
-      variants: labels.map((label) => ({ label, price: 0, offer: 0 })),
+      variants: getVariantLabels(false).map((label) => ({
+        label,
+        price: 0,
+        offer: 0,
+      })),
     });
     setIsModalOpen(true);
   };
@@ -241,7 +251,6 @@ export default function AdminDashboard() {
     setOfferPercentage(0);
     setSaveError(null);
     setSaveSuccess(false);
-    const isLiquid = product.isLiquid || false;
     const variants =
       Array.isArray(product.variants) && product.variants.length > 0
         ? product.variants.map((variant) => ({
@@ -249,7 +258,7 @@ export default function AdminDashboard() {
             price: Number(variant.price) || 0,
             offer: Number(variant.offer) || 0,
           }))
-        : getVariantLabels(isLiquid).map((label) => ({
+        : getVariantLabels(product.isLiquid).map((label) => ({
             label,
             price: 0,
             offer: 0,
@@ -262,8 +271,8 @@ export default function AdminDashboard() {
       category: product.category,
       description: product.description || "",
       image: product.image,
-      isLiquid: isLiquid,
-      variants: variants,
+      isLiquid: product.isLiquid || false,
+      variants,
     });
     setIsModalOpen(true);
   };
@@ -272,6 +281,12 @@ export default function AdminDashboard() {
   const handleSaveProduct = async () => {
     if (!formData.name || !formData.category || !formData.image) {
       setSaveError("Please fill in all required fields");
+      return;
+    }
+
+    const hasAllSizes = formData.variants.every((variant) => variant.label);
+    if (!hasAllSizes) {
+      setSaveError("Please enter a size greater than 0 for all variants");
       return;
     }
 
@@ -826,13 +841,30 @@ export default function AdminDashboard() {
                   {formData.variants.map((variant, index) => (
                     <div
                       key={index}
-                      className="grid grid-cols-3 gap-3 items-center rounded-xl border border-line bg-cream/30 p-3"
+                      className="grid grid-cols-1 items-end gap-3 rounded-xl border border-line bg-cream/30 p-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_auto]"
                     >
                       <div>
-                        <label className="block text-xs text-muted">Unit</label>
-                        <span className="block text-sm font-medium text-deep mt-1">
-                          {variant.label}
-                        </span>
+                        <label className="mb-1.5 block text-xs text-muted">
+                          Size / Unit
+                        </label>
+                        <select
+                          value={variant.label}
+                          onChange={(e) =>
+                            handleVariantChange(index, "label", e.target.value)
+                          }
+                          className="w-full rounded-xl border border-line bg-white px-3 py-2 text-sm transition-all focus:border-deep focus:outline-none focus:ring-2 focus:ring-deep/20"
+                        >
+                          {[
+                            ...new Set([
+                              variant.label,
+                              ...getVariantLabels(formData.isLiquid),
+                            ]),
+                          ].map((label) => (
+                            <option key={label} value={label}>
+                              {label}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                       <div>
                         <label className="block text-xs text-muted">
@@ -865,9 +897,34 @@ export default function AdminDashboard() {
                           placeholder="Offer price"
                         />
                       </div>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            variants: prev.variants.filter(
+                              (_, i) => i !== index,
+                            ),
+                          }))
+                        }
+                        disabled={formData.variants.length === 1}
+                        aria-label={`Remove variant ${index + 1}`}
+                        title="Remove variant"
+                        className="grid h-10 w-10 place-items-center rounded-lg text-red-500 transition-colors hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-40"
+                      >
+                        <FiTrash2 className="h-4 w-4" />
+                      </button>
                     </div>
                   ))}
                 </div>
+                <button
+                  type="button"
+                  onClick={addVariant}
+                  className="mt-3 inline-flex items-center gap-2 rounded-lg border border-line px-3 py-2 text-sm font-medium text-deep transition-colors hover:bg-cream"
+                >
+                  <FiPlus className="h-4 w-4" />
+                  Add variant
+                </button>
               </div>
 
               <button

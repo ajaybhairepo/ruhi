@@ -4,7 +4,7 @@ type AdBannerProps = {
 };
 
 export function AdBanner({
-  image = "/banner.png",
+  image = "/banner.jpeg",
   alt = "Advertising banner",
 }: AdBannerProps) {
   return (

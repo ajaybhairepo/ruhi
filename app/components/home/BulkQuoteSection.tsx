@@ -86,6 +86,7 @@ export function BulkQuoteSection() {
             What do you need?
           </option>
           <option className="text-deep">Detergent</option>
+          <option className="text-deep">Cleaner</option>
           <option className="text-deep">Soap</option>
           <option className="text-deep">Disinfectant</option>
           <option className="text-deep">Mixed Order</option>

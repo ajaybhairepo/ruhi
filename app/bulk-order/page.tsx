@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   FiArrowLeft,
@@ -16,25 +16,63 @@ import {
 import { FaWhatsapp } from "react-icons/fa";
 import { SiteHeader } from "@/app/components/layout/SiteHeader";
 import { SiteFooter } from "@/app/components/layout/SiteFooter";
-import { products } from "@/app/data/store";
+
+type BulkProduct = {
+  id: string;
+  name: string;
+  image: string;
+  variants: { label: string; price: number; offer: number }[];
+};
 
 export default function BulkOrderPage() {
   const router = useRouter();
+  const [products, setProducts] = useState<BulkProduct[]>([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
+  const [productLoadError, setProductLoadError] = useState("");
   const [formData, setFormData] = useState({
     fullName: "",
     phone: "",
     email: "",
     product: "",
+    variant: "",
     quantity: "",
-    unit: "kg",
     address: "",
     message: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Get unique product names for dropdown
-  const productOptions = products.map((p) => p.name);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("/api/admin/products");
+        const data = await response.json();
+        if (!response.ok || !data.success) {
+          throw new Error(data.message || "Unable to load products");
+        }
+        setProducts(
+          (data.data || []).map((product: any) => ({
+            id: String(product.id),
+            name: product.name,
+            image: product.image,
+            variants: Array.isArray(product.variants) ? product.variants : [],
+          })),
+        );
+      } catch (error) {
+        setProductLoadError(
+          error instanceof Error ? error.message : "Unable to load products",
+        );
+      } finally {
+        setIsLoadingProducts(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const selectedProduct = products.find(
+    (product) => product.id === formData.product,
+  );
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -42,6 +80,15 @@ export default function BulkOrderPage() {
     >,
   ) => {
     const { name, value } = e.target;
+    if (name === "product") {
+      const product = products.find((item) => item.id === value);
+      setFormData((prev) => ({
+        ...prev,
+        product: value,
+        variant: product?.variants[0]?.label || "",
+      }));
+      return;
+    }
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -51,8 +98,9 @@ export default function BulkOrderPage() {
 
     const message = `Hello Ruhi! I would like to place a bulk order.
 
-Product: ${formData.product}
-Quantity: ${formData.quantity} ${formData.unit}
+Product: ${selectedProduct?.name || ""}
+Package Size: ${formData.variant}
+Quantity: ${formData.quantity} packages
 
 Customer Details:
 Name: ${formData.fullName}
@@ -214,13 +262,18 @@ Additional Message: ${formData.message || "N/A"}`;
                       onChange={handleChange}
                     >
                       <option value="">Select a product</option>
-                      {productOptions.map((name) => (
-                        <option key={name} value={name}>
-                          {name}
-                        </option>
-                      ))}
+                      {isLoadingProducts ? (
+                        <option value="">Loading products...</option>
+                      ) : (
+                        <>
+                          {products.map((product) => (
+                            <option key={product.id} value={product.id}>
+                              {product.name}
+                            </option>
+                          ))}
+                        </>
+                      )}
                     </select>
-                    {/* Custom dropdown arrow */}
                     <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
                       <svg
                         className="h-4 w-4 text-muted"
@@ -237,12 +290,47 @@ Additional Message: ${formData.message || "N/A"}`;
                       </svg>
                     </div>
                   </div>
+                  {productLoadError && (
+                    <p className="mt-2 text-xs text-red-600">
+                      {productLoadError}
+                    </p>
+                  )}
+                  {!isLoadingProducts &&
+                    !productLoadError &&
+                    products.length === 0 && (
+                      <p className="mt-2 text-xs text-muted">
+                        No products are currently available.
+                      </p>
+                    )}
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
                     <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-deep">
-                      Quantity <span className="text-red-500">*</span>
+                      Package Size <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      className="w-full rounded-xl border border-line bg-white py-3 px-4 text-sm transition-all focus:border-deep focus:outline-none focus:ring-2 focus:ring-deep/20"
+                      required
+                      name="variant"
+                      value={formData.variant}
+                      onChange={handleChange}
+                      disabled={!selectedProduct?.variants.length}
+                    >
+                      {selectedProduct?.variants.length ? (
+                        selectedProduct.variants.map((variant) => (
+                          <option key={variant.label} value={variant.label}>
+                            {variant.label}
+                          </option>
+                        ))
+                      ) : (
+                        <option value="">Select a product first</option>
+                      )}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-deep">
+                      Number of Packages <span className="text-red-500">*</span>
                     </label>
                     <input
                       className="w-full rounded-xl border border-line bg-white py-3 px-4 text-sm transition-all focus:border-deep focus:outline-none focus:ring-2 focus:ring-deep/20"
@@ -254,25 +342,6 @@ Additional Message: ${formData.message || "N/A"}`;
                       value={formData.quantity}
                       onChange={handleChange}
                     />
-                  </div>
-
-                  <div>
-                    <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-deep">
-                      Unit <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                      className="w-full rounded-xl border border-line bg-white py-3 px-4 text-sm transition-all focus:border-deep focus:outline-none focus:ring-2 focus:ring-deep/20"
-                      required
-                      name="unit"
-                      value={formData.unit}
-                      onChange={handleChange}
-                    >
-                      <option value="kg">Kilogram (kg)</option>
-                      <option value="ml">Milliliter (ml)</option>
-                      <option value="L">Liter (L)</option>
-                      <option value="g">Gram (g)</option>
-                      <option value="pcs">Pieces (pcs)</option>
-                    </select>
                   </div>
                 </div>
 
